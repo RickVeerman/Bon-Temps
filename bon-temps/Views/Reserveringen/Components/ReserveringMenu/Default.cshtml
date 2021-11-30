@@ -1,0 +1,48 @@
+﻿@model IEnumerable<bon_temps.Models.ReserveringMenu>
+
+<h4>Menu</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Menu)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Menu.MenuSoort)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Menu.Prijs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Aantal)
+            </th>
+            <th>
+                
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Menu.Naam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Menu.MenuSoort.Soort)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Menu.Prijs)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Aantal)
+            </td>
+            <td>
+                <a asp-action="EditMenu" asp-route-id="@item.ReserveringId" asp-route-menuId="@item.MenuId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ReserveringId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ReserveringId">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

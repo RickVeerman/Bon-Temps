@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Bon Temps</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Bon Temps</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Menus" asp-action="Index">Menu</a>
+                        </li>
+                        @if (User.IsInRole("Klant"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Reserveringen" asp-action="Create">Reservering</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("Owner")||(User.IsInRole("Ober")))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link text-dark dropdown-toggle" href="#" data-toggle="dropdown">Gerechten</a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a class="dropdown-item nav-link text-dark" asp-area="" asp-controller="Gerechten" asp-action="Index">Gerecht</a>
+                                        <a class="dropdown-item nav-link text-dark" asp-area="" asp-controller="GerechtSoorten" asp-action="Index">Gerecht Soort</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link text-dark dropdown-toggle" href="#" data-toggle="dropdown">Reserveren</a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a class="dropdown-item nav-link text-dark" asp-area="" asp-controller="Reserveringen" asp-action="Index">Reservering</a>
+                                        <a class="dropdown-item nav-link text-dark" asp-area="" asp-controller="Menus" asp-action="Index">Menu</a>
+                                        <a class="dropdown-item nav-link text-dark" asp-area="" asp-controller="MenuSoorten" asp-action="Index">Menu Soort</a>
+                                        <a class="dropdown-item nav-link text-dark" asp-area="" asp-controller="Dranken" asp-action="Index">Dranken</a>
+                                        <a class="dropdown-item nav-link text-dark" asp-area="" asp-controller="DrankSoorten" asp-action="Index">Dranksoorten</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link text-dark dropdown-toggle" href="#" data-toggle="dropdown">Ingredienten</a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a class="dropdown-item nav-link text-dark" asp-area="" asp-controller="Ingredienten" asp-action="Index">Ingredient</a>
+                                        <a class="dropdown-item nav-link text-dark" asp-area="" asp-controller="Vegetarische" asp-action="Index">Vegetarisch</a>
+                                        <a class="dropdown-item nav-link text-dark" asp-area="" asp-controller="Allergieen" asp-action="Index">Allergie</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        }
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021 - Bon Temps - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

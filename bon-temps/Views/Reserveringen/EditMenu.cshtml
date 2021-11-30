@@ -1,0 +1,36 @@
+﻿@model bon_temps.Models.ReserveringMenu
+
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Reservering</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditMenu" class="row" method="post">
+            <div class="col-4">
+                <input type="hidden" name="reservering" value="@Model.ReserveringId" />
+      
+                <div class="form-group">
+                    <label class="col-form-label">Aantal</label>
+                    <input name="aantal" class="form-control" type="number" min="1" />
+                </div>
+                <div class="form-group">
+                    <input class="btn btn-primary" type="submit" value="Bewerken" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
