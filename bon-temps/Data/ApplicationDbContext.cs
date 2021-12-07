@@ -119,12 +119,14 @@ namespace bon_temps.Data
             );
 
             builder.Entity<Gerecht>().HasData(
-                new Gerecht { Id = 1, GerechtSoortId = 1, Naam = "UienSoep" },
+                new Gerecht { Id = 1, GerechtSoortId = 1, Naam = "Uiensoep" },
                 new Gerecht { Id = 2, GerechtSoortId = 1, Naam = "Groentesoep" },
                 new Gerecht { Id = 3, GerechtSoortId = 1, Naam = "Carpaccio" },
                 new Gerecht { Id = 4, GerechtSoortId = 1, Naam = "Noorse Garnalenpasta" },
                 new Gerecht { Id = 5, GerechtSoortId = 2, Naam = "Rösti met Avocado" },
-                new Gerecht { Id = 6, GerechtSoortId = 3, Naam = "Dame Blanche" }
+                new Gerecht { Id = 6, GerechtSoortId = 3, Naam = "Dame Blanche" },
+                new Gerecht { Id = 7, GerechtSoortId = 3, Naam = "Soft Ijs"}
+         
 
             );
 

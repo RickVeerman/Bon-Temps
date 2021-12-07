@@ -1,11 +1,5 @@
 ﻿@model bon_temps.Models.GerechtIngredient
 
-@{
-    ViewData["Title"] = "Delete";
-}
-
-<h1>Verwijderen</h1>
-
 <h3>Weet je het zeker dat je dit wilt verwijderen?</h3>
 <div>
     <h4>GerechtIngredient</h4>
@@ -15,13 +9,13 @@
             @Html.DisplayNameFor(model => model.Gerecht)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Gerecht.Id)
+            @Html.DisplayFor(model => model.Gerecht.Naam)
         </dd class>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Ingredient)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Ingredient.Id)
+            @Html.DisplayFor(model => model.Ingredient.Eenheid)
         </dd class>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Aantal)
@@ -31,10 +25,10 @@
         </dd>
     </dl>
     
-    <form asp-action="Delete">
+    <form asp-action="DeleteIngredient">
         <input type="hidden" asp-for="GerechtId" />
         <input type="hidden" asp-for="IngredientId" />
         <input type="submit" value="Verwijderen" class="btn btn-danger" /> |
-        <a asp-action="Index">Terug</a>
+        <a asp-action="Index" asp-route-id="@Model.Gerecht.Id">Terug</a>
     </form>
 </div>

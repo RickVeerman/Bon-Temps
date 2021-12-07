@@ -19,17 +19,21 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Ingredient.Naam)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Ingredient.Eenheid)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Aantal)
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ingredient.Naam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ingredient.Eenheid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Aantal)
+            </td>
+            <td>
+                <a asp-action="EditIngredient" asp-route-id="@item.GerechtId" asp-route-ingredientId="@item.IngredientId">Wijzigen</a> |
+                <a asp-action="DeleteIngredient" asp-route-id="@item.GerechtId" asp-route-ingredientId="@item.IngredientId">Verwijderen</a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

@@ -126,7 +126,7 @@ namespace bon_temps.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ApplicationUserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", reservering.ApplicationUserId);
+            ViewData["ApplicationUserId"] = new SelectList(_context.Reservering, "Id", "Id", reservering.ApplicationUserId);
             return View(reservering);
         }
 
@@ -188,7 +188,7 @@ namespace bon_temps.Controllers
             var reservering = await _context.ReserveringMenu
                 .Include(i => i.Menu)
                 .Include(i => i.Reservering)
-                .FirstOrDefaultAsync(m => m.ReserveringId == id);
+                .FirstOrDefaultAsync(m => m.ReserveringId == id &&  m.MenuId == menuId);
 
             if (reservering == null)
             {
@@ -201,9 +201,9 @@ namespace bon_temps.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditMenu(int id, int menuId, Reservering reservering)
+        public async Task<IActionResult> EditMenu(int id, [Bind("ReserveringId,MenuId,Aantal")] ReserveringMenu reserveringMenu)
         {
-            if (id != reservering.Id)
+            if (id != reserveringMenu.ReserveringId)
             {
                 return NotFound();
             }
@@ -212,13 +212,12 @@ namespace bon_temps.Controllers
             {
                 try
                 {
-                    _context.Update(reservering);
-                   
+                    _context.Update(reserveringMenu);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ReserveringExists(reservering.Id))
+                    if (!ReserveringMenuExists(reserveringMenu.ReserveringId))
                     {
                         return NotFound();
                     }
@@ -227,15 +226,48 @@ namespace bon_temps.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Details), new { id = reservering.Id });
+                return RedirectToAction(nameof(Details), new { id = id });
             }
-            ViewData["ReserveringId"] = new SelectList(_context.Reservering, "Id", "Id", reservering.Id);
-            return View(reservering);
+            ViewData["MenuId"] = new SelectList(_context.Menu, "Id", "Id", reserveringMenu.MenuId);
+            ViewData["ReserveringId"] = new SelectList(_context.Reservering, "Id", "Id", reserveringMenu.ReserveringId);
+            return View(reserveringMenu);
         }
 
+        public async Task<IActionResult> DeleteMenu(int? id, int? menuId, int aantal)
+        {
+            if (id == null || menuId == null)
+            {
+                return NotFound();
+            }
+
+            var reservering = await _context.ReserveringMenu
+                .Include(i => i.Menu)
+                .Include(i => i.Reservering)
+                .ThenInclude(i => i.ApplicationUser)
+                .FirstOrDefaultAsync(m => m.ReserveringId == id && m.MenuId == menuId);
+
+            if (reservering == null)
+            {
+                return NotFound();
+            }
+
+            return View(reservering);
+        }
+        [HttpPost, ActionName("DeleteMenu")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmedMenu(ReserveringMenu reserveringMenu)
+        {
+            _context.Remove(reserveringMenu);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Details), new { id = reserveringMenu.ReserveringId });
+        }
         private bool ReserveringExists(int id)
         {
             return _context.Reservering.Any(e => e.Id == id);
+        }
+        private bool ReserveringMenuExists(int id)
+        {
+            return _context.ReserveringMenu.Any(e => e.ReserveringId == id);
         }
     }
 }

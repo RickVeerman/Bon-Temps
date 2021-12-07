@@ -1,0 +1,47 @@
+﻿@model bon_temps.Models.ReserveringMenu
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+
+<h3>Weet je het zeker dat je dit wilt verwijderen?</h3>
+<div>
+    <h4>ReserveringMenu</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Reservering.ApplicationUser.HeleNaam)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Reservering.ApplicationUser.HeleNaam)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Reservering.Datum)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Reservering.Datum)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Menu.Naam)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Menu.Naam)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Aantal)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Aantal)
+        </dd>
+
+    </dl>
+
+    
+    <form asp-action="DeleteMenu">
+        <input type="hidden" asp-for="ReserveringId" />
+        <input type="hidden" asp-for="MenuId" />
+        <input type="submit" value="Verwijderen" class="btn btn-danger" /> |
+        <a asp-action="Details" asp-route-id="@Model.Reservering.Id">Terug</a>
+    </form>
+</div>

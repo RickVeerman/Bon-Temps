@@ -170,10 +170,95 @@ namespace bon_temps.Controllers
             return RedirectToAction(nameof(Details), new { id = gerechtId });
         }
 
+        public async Task<IActionResult> EditIngredient(int? id, int? ingredientId, int aantal)
+        {
+            if (id == null || ingredientId == null)
+            {
+                return NotFound();
+            }
+
+            var gerecht = await _context.GerechtIngredient
+                .Include(i => i.Gerecht)
+                .Include(i => i.Ingredient)
+                .FirstOrDefaultAsync(g => g.GerechtId == id && g.IngredientId == ingredientId);
+
+            if (gerecht == null)
+            {
+                return NotFound();
+            }
+            ViewData["IngedientId"] = new SelectList(_context.Ingredient, "Id", "Id", gerecht.IngredientId);
+            ViewData["GerechtId"] = new SelectList(_context.Gerecht, "Id", "Id", gerecht.GerechtId);
+
+            return View(gerecht);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditIngredient(int id, [Bind("GerechtId,IngredientId,Aantal")] GerechtIngredient gerechtIngredient)
+        {
+            if (id != gerechtIngredient.GerechtId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(gerechtIngredient);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!GerechtIngredientExists(gerechtIngredient.GerechtId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Details), new { id = id });
+            }
+            ViewData["IngredientId"] = new SelectList(_context.Ingredient, "Id", "Id", gerechtIngredient.IngredientId);
+            ViewData["GerechtId"] = new SelectList(_context.Gerecht, "Id", "Id", gerechtIngredient.GerechtId);
+            return View(gerechtIngredient);
+        }
+        public async Task<IActionResult> DeleteIngredient(int? id, int? ingredientId, int aantal)
+        {
+            if (id == null || ingredientId == null)
+            {
+                return NotFound();
+            }
+
+            var gerecht = await _context.GerechtIngredient
+                .Include(i => i.Ingredient)
+                .Include(i => i.Gerecht)
+                .FirstOrDefaultAsync(m => m.GerechtId == id && m.IngredientId == ingredientId);
+
+            if (gerecht == null)
+            {
+                return NotFound();
+            }
+
+            return View(gerecht);
+        }
+        [HttpPost, ActionName("DeleteIngredient")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmedIngredient(GerechtIngredient gerechtIngredient)
+        {
+            _context.Remove(gerechtIngredient);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Details), new { id = gerechtIngredient.GerechtId });
+        }
 
         private bool GerechtExists(int id)
         {
             return _context.Gerecht.Any(e => e.Id == id);
+        }
+        private bool GerechtIngredientExists(int id)
+        {
+            return _context.GerechtIngredient.Any(e => e.GerechtId == id);
         }
         public ActionResult Ingredient()
         {

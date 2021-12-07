@@ -1,4 +1,4 @@
-﻿@model bon_temps.Models.ReserveringMenu
+﻿@model bon_temps.Models.GerechtIngredient
 
 
 @{
@@ -7,13 +7,13 @@
 
 <h1>Wijzigen</h1>
 
-<h4>ReserveringMenu</h4>
+<h4>GerechtIngredient</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="EditMenu">
-                <input type="hidden" asp-for="ReserveringId"/>
-                <input type="hidden" asp-for="MenuId"/>
+        <form asp-action="EditIngredient">
+                <input type="hidden" asp-for="GerechtId"/>
+                <input type="hidden" asp-for="IngredientId"/>
                 <div class="form-group">
                     <label asp-for="Aantal" class="control-label"></label>
                     <input asp-for="Aantal" class="form-control"/>
@@ -27,7 +27,7 @@
 </div>
 
 <div>
-    <a asp-action="Details" asp-route-id="@Model.Reservering.Id">Terug</a>
+    <a asp-action="Details" asp-route-id="@Model.Gerecht.Id">Terugt</a>
 </div>
 
 @section Scripts {
